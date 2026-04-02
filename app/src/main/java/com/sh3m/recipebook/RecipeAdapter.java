@@ -67,7 +67,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                     .placeholder(android.R.drawable.ic_menu_gallery)
                     .into(holder.imgThumbnail);
         } else {
-            holder.imgThumbnail.setImageResource(android.R.drawable.ic_menu_gallery);
+            holder.imgThumbnail.setImageResource(R.drawable.ic_recipe_placeholder);
         }
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(recipe));

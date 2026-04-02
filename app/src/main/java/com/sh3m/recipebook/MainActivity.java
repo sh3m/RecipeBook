@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(v ->
                 startActivity(new Intent(this, AddRecipeActivity.class)));
 
+        btnNightMode.setImageResource(ThemeManager.isDark(this)
+                ? R.drawable.ic_sun : R.drawable.ic_moon);
+
         btnNightMode.setOnClickListener(v -> {
             ThemeManager.toggle(this);
             recreate();

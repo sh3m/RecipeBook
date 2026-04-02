@@ -42,7 +42,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:contentDescription="Remove"
-        android:src="@android:drawable/ic_delete"
+        android:src="@drawable/ic_delete"
         android:tint="@color/dark_hint"
         android:alpha="0.6" />
 </LinearLayout>

@@ -16,7 +16,7 @@
         android:layout_height="90dp"
         android:contentDescription="Recipe image"
         android:scaleType="centerCrop"
-        android:src="@android:drawable/ic_menu_gallery" />
+        android:src="@drawable/ic_recipe_placeholder" />
 
     <!-- Info -->
     <LinearLayout

@@ -34,8 +34,7 @@
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/night_mode"
-            android:src="@android:drawable/ic_menu_day"
-            android:tint="@color/dark_text" />
+            android:src="@drawable/ic_sun" />
     </LinearLayout>
 
     <!-- Divider -->
@@ -80,7 +79,7 @@
         android:background="@drawable/bg_fab"
         android:contentDescription="@string/add_recipe"
         android:elevation="6dp"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@drawable/ic_add"
         android:tint="@color/white" />
 
 </RelativeLayout>
