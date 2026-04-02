@@ -16,7 +16,7 @@
         <LinearLayout
             android:id="@+id/sectionRecipe"
             style="@style/SectionWrapper"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp">
 
             <LinearLayout style="@style/SectionHeader">
@@ -71,7 +71,7 @@
         <LinearLayout
             android:id="@+id/sectionIngredients"
             style="@style/SectionWrapper"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:visibility="gone">
 
@@ -88,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingHorizontal="16dp"
+                android:paddingStart="16dp" android:paddingEnd="16dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp" />
         </LinearLayout>
@@ -97,7 +97,7 @@
         <LinearLayout
             android:id="@+id/sectionInstructions"
             style="@style/SectionWrapper"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:visibility="gone">
 
@@ -121,7 +121,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
             android:orientation="horizontal">
 
             <Button
@@ -140,7 +140,7 @@
                 android:id="@+id/btnDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:paddingHorizontal="24dp"
+                android:paddingStart="24dp" android:paddingEnd="24dp"
                 android:background="@android:color/transparent"
                 android:text="@string/delete"
                 android:textColor="@color/danger"

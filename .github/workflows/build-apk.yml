@@ -5,6 +5,9 @@ on:
     branches: [ master ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,17 +22,22 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Accept SDK licenses
-        run: yes | sdkmanager --licenses || true
+        run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+      - name: Install SDK platform 34 & build tools
+        run: |
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-34" \
+            "build-tools;34.0.0" || true
 
       - name: Grant gradlew permissions
         run: chmod +x ./gradlew
 
       - name: Build debug APK
-        run: ./gradlew assembleDebug --no-daemon
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        env:
+          ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
 
       - name: Rename APK
         run: |
@@ -40,7 +48,7 @@ jobs:
         id: slug
         run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Create or update GitHub Release
+      - name: Create / update GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
@@ -48,11 +56,9 @@ jobs:
           body: |
             ## RecipeBook APK
 
-            **Install:** Download `RecipeBook.apk` below and open it on your Android device.
-            You may need to enable *Install from unknown sources* in your device settings.
+            **Download `RecipeBook.apk` below** and sideload onto your Android device.
+            *(Settings → Install unknown apps → enable for your browser/file manager)*
 
             Built from commit `${{ steps.slug.outputs.sha }}`
           files: release/RecipeBook.apk
           make_latest: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

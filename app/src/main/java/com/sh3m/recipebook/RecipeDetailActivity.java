@@ -3,7 +3,6 @@ package com.sh3m.recipebook;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 
@@ -90,9 +90,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
             ingredientsList.removeAllViews();
             for (int i = 0; i < recipe.ingredients.size(); i++) {
                 Ingredient ing = recipe.ingredients.get(i);
-                View row = LayoutInflater.from(this).inflate(
-                        android.R.layout.simple_list_item_2, ingredientsList, false);
-                // Use a custom row instead
                 LinearLayout rowLayout = new LinearLayout(this);
                 rowLayout.setOrientation(LinearLayout.HORIZONTAL);
                 rowLayout.setPadding(0, dpToPx(10), 0, dpToPx(10));
@@ -100,7 +97,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
                 TextView tvIng = new TextView(this);
                 tvIng.setText(ing.ingredient);
                 tvIng.setTextSize(15);
-                tvIng.setTextColor(getResources().getColor(R.color.dark_text));
+                tvIng.setTextColor(ContextCompat.getColor(this, R.color.dark_text));
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,
                         LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
                 tvIng.setLayoutParams(params);
@@ -108,7 +105,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
                 TextView tvAmt = new TextView(this);
                 tvAmt.setText(ing.amount);
                 tvAmt.setTextSize(14);
-                tvAmt.setTextColor(getResources().getColor(R.color.accent));
+                tvAmt.setTextColor(ContextCompat.getColor(this, R.color.accent));
                 tvAmt.setTypeface(null, android.graphics.Typeface.BOLD);
 
                 rowLayout.addView(tvIng);
@@ -121,7 +118,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams dp = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT, 1);
                     divider.setLayoutParams(dp);
-                    divider.setBackgroundColor(getResources().getColor(R.color.dark_border));
+                    divider.setBackgroundColor(ContextCompat.getColor(this, R.color.dark_border));
                     ingredientsList.addView(divider);
                 }
             }
@@ -149,10 +146,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
                 TextView badge = new TextView(this);
                 badge.setText(String.valueOf(step.stepNumber));
                 badge.setTextSize(12);
-                badge.setTextColor(getResources().getColor(R.color.white));
+                badge.setTextColor(ContextCompat.getColor(this, R.color.white));
                 badge.setTypeface(null, android.graphics.Typeface.BOLD);
                 badge.setGravity(android.view.Gravity.CENTER);
-                badge.setBackgroundColor(getResources().getColor(R.color.accent));
+                badge.setBackgroundColor(ContextCompat.getColor(this, R.color.accent));
                 int size = dpToPx(26);
                 LinearLayout.LayoutParams bp = new LinearLayout.LayoutParams(size, size);
                 bp.setMargins(0, dpToPx(1), dpToPx(12), 0);
@@ -162,7 +159,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
                 TextView tvStep = new TextView(this);
                 tvStep.setText(step.text);
                 tvStep.setTextSize(15);
-                tvStep.setTextColor(getResources().getColor(R.color.dark_text));
+                tvStep.setTextColor(ContextCompat.getColor(this, R.color.dark_text));
                 tvStep.setLineSpacing(0, 1.4f);
                 LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(0,
                         LinearLayout.LayoutParams.WRAP_CONTENT, 1f);

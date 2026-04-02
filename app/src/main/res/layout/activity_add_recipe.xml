@@ -16,7 +16,7 @@
         <LinearLayout
             android:id="@+id/sectionRecipe"
             style="@style/SectionWrapper"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp">
 
             <!-- Section header -->
@@ -115,7 +115,7 @@
         <LinearLayout
             android:id="@+id/sectionIngredients"
             style="@style/SectionWrapper"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp">
 
             <LinearLayout style="@style/SectionHeader">
@@ -160,7 +160,7 @@
         <LinearLayout
             android:id="@+id/sectionInstructions"
             style="@style/SectionWrapper"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp">
 
             <LinearLayout style="@style/SectionHeader">
@@ -206,7 +206,7 @@
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
             android:background="@color/accent"
             android:text="@string/save_recipe"
             android:textColor="@color/white"
