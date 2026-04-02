@@ -1,0 +1,58 @@
+name: Build & Release APK
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Accept SDK licenses
+        run: yes | sdkmanager --licenses || true
+
+      - name: Grant gradlew permissions
+        run: chmod +x ./gradlew
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Rename APK
+        run: |
+          mkdir -p release
+          cp app/build/outputs/apk/debug/app-debug.apk release/RecipeBook.apk
+
+      - name: Get short SHA
+        id: slug
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Create or update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: "RecipeBook – latest build"
+          body: |
+            ## RecipeBook APK
+
+            **Install:** Download `RecipeBook.apk` below and open it on your Android device.
+            You may need to enable *Install from unknown sources* in your device settings.
+
+            Built from commit `${{ steps.slug.outputs.sha }}`
+          files: release/RecipeBook.apk
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@color/dark_surface2"
+    android:minHeight="44dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tvStepNumber"
+        android:layout_width="32dp"
+        android:layout_height="match_parent"
+        android:background="@color/accent"
+        android:gravity="center"
+        android:minHeight="44dp"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etStep"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:gravity="top"
+        android:inputType="textCapSentences|textMultiLine"
+        android:minHeight="44dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="10dp"
+        android:textColor="@color/dark_text"
+        android:textColorHint="@color/dark_hint"
+        android:textSize="14sp" />
+
+    <ImageButton
+        android:id="@+id/btnRemove"
+        android:layout_width="36dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:contentDescription="Remove"
+        android:minHeight="44dp"
+        android:src="@android:drawable/ic_delete"
+        android:tint="@color/dark_hint"
+        android:alpha="0.6" />
+</LinearLayout>

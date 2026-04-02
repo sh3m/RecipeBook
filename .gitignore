@@ -1,12 +1,15 @@
-node_modules/
-.expo/
-dist/
-npm-debug.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.orig.*
-web-build/
-.env
+# Android build
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+*.keystore
+!debug.keystore
+
+# App build outputs (tracked in CI releases, not git)
+app/build/

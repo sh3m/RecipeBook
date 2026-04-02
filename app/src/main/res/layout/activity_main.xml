@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_bg">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/dark_surface"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingEnd="12dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:text="@string/app_name"
+            android:textColor="@color/accent"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btnNightMode"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/night_mode"
+            android:src="@android:drawable/ic_menu_day"
+            android:tint="@color/dark_text" />
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/header"
+        android:background="@color/dark_border" />
+
+    <!-- Empty state -->
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/no_recipes"
+        android:textColor="@color/dark_hint"
+        android:textSize="16sp"
+        android:letterSpacing="0.05"
+        android:visibility="gone" />
+
+    <!-- Recipe list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/divider"
+        android:clipToPadding="false"
+        android:paddingTop="10dp"
+        android:paddingBottom="92dp" />
+
+    <!-- FAB -->
+    <ImageButton
+        android:id="@+id/btnAdd"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_fab"
+        android:contentDescription="@string/add_recipe"
+        android:elevation="6dp"
+        android:src="@android:drawable/ic_input_add"
+        android:tint="@color/white" />
+
+</RelativeLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RecipeBook</string>
+    <string name="no_recipes">no recipes yet</string>
+    <string name="add_recipe">New Recipe</string>
+    <string name="edit_recipe">Edit Recipe</string>
+    <string name="save_recipe">Save Recipe</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit Recipe</string>
+    <string name="cancel">Cancel</string>
+    <string name="recipe_name_hint">Recipe name</string>
+    <string name="description_hint">Add a description (optional)</string>
+    <string name="ingredient_hint">Ingredient</string>
+    <string name="amount_hint">Amount</string>
+    <string name="step_hint">Describe this step…</string>
+    <string name="add_ingredient">+ Add ingredient</string>
+    <string name="add_step">+ Add step</string>
+    <string name="tap_to_add_photo">Tap to add photo</string>
+    <string name="change_photo">Change photo</string>
+    <string name="section_recipe">RECIPE</string>
+    <string name="section_ingredients">INGREDIENTS</string>
+    <string name="section_instructions">INSTRUCTIONS</string>
+    <string name="photo_source_title">Recipe Image</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Photo Library</string>
+    <string name="delete_title">Delete Recipe</string>
+    <string name="delete_message">Delete \"%s\"? This cannot be undone.</string>
+    <string name="ingredients_count">%d ingredients · %d steps</string>
+    <string name="night_mode">Toggle dark mode</string>
+</resources>

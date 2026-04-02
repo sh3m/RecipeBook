@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Accent -->
+    <color name="accent">#00B4CC</color>
+    <color name="accent_pressed">#0097A7</color>
+
+    <!-- Dark Theme -->
+    <color name="dark_bg">#07090F</color>
+    <color name="dark_surface">#0D1520</color>
+    <color name="dark_surface2">#132030</color>
+    <color name="dark_text">#E8F5F8</color>
+    <color name="dark_hint">#4A7A8A</color>
+    <color name="dark_border">#1A2E40</color>
+
+    <!-- Light Theme -->
+    <color name="light_bg">#E8F5FA</color>
+    <color name="light_surface">#FFFFFF</color>
+    <color name="light_surface2">#D0EBF2</color>
+    <color name="light_text">#071520</color>
+    <color name="light_hint">#4A7080</color>
+    <color name="light_border">#B8D8E8</color>
+
+    <!-- Legacy -->
+    <color name="colorPrimary">#00B4CC</color>
+    <color name="colorPrimaryDark">#0097A7</color>
+    <color name="colorAccent">#00B4CC</color>
+    <color name="danger">#E05555</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+</resources>
