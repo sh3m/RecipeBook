@@ -22,14 +22,12 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Accept SDK licenses
-        run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
 
       - name: Install SDK platform 34 & build tools
         run: |
-          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
-            "platforms;android-34" \
-            "build-tools;34.0.0" || true
+          sdkmanager "platforms;android-34" "build-tools;34.0.0"
 
       - name: Grant gradlew permissions
         run: chmod +x ./gradlew
@@ -46,18 +44,23 @@ jobs:
           name: build-log
           path: build.log
 
-      - name: Package APK
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: RecipeBook-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
+
+      - name: Package APK for release
         run: |
           mkdir -p release
-          APK=$(find app/build/outputs -name "*.apk" | head -1)
-          echo "APK found at: $APK"
-          cp "$APK" release/RecipeBook.apk
+          cp app/build/outputs/apk/debug/app-debug.apk release/RecipeBook.apk
 
       - name: Get short SHA
         id: slug
         run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Create / update GitHub Release
+      - name: Create / update Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
