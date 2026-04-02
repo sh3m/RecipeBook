@@ -64,7 +64,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             Glide.with(context)
                     .load(new File(recipe.imagePath))
                     .centerCrop()
-                    .placeholder(android.R.drawable.ic_menu_gallery)
+                    .placeholder(R.drawable.ic_recipe_placeholder)
                     .into(holder.imgThumbnail);
         } else {
             holder.imgThumbnail.setImageResource(R.drawable.ic_recipe_placeholder);
