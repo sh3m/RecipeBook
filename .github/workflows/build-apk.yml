@@ -1,4 +1,4 @@
-name: Build & Release APK
+name: Build APK
 
 on:
   push:
@@ -22,45 +22,28 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Accept Android SDK licenses
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
-      - name: Install SDK platform 34 & build tools
+      - name: Install required SDK components
         run: |
-          sdkmanager "platforms;android-34" "build-tools;34.0.0"
-
-      - name: Grant gradlew permissions
-        run: chmod +x ./gradlew
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-34" \
+            "build-tools;34.0.0"
 
       - name: Build debug APK
         run: |
-          set -o pipefail
-          ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
-
-      - name: Upload build log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-log
-          path: build.log
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: RecipeBook-debug
           path: app/build/outputs/apk/debug/app-debug.apk
-          retention-days: 30
+          retention-days: 90
 
-      - name: Package APK for release
-        run: |
-          mkdir -p release
-          cp app/build/outputs/apk/debug/app-debug.apk release/RecipeBook.apk
-
-      - name: Get short SHA
-        id: slug
-        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Create / update Release
+      - name: Create release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
@@ -71,6 +54,6 @@ jobs:
             **Download `RecipeBook.apk` below** and sideload onto your Android device.
             *(Settings → Install unknown apps → enable for your browser/file manager)*
 
-            Built from commit `${{ steps.slug.outputs.sha }}`
-          files: release/RecipeBook.apk
+            Built from commit `${{ github.sha }}`
+          files: app/build/outputs/apk/debug/app-debug.apk
           make_latest: true
