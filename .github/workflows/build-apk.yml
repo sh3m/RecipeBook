@@ -31,13 +31,35 @@ jobs:
             "platforms;android-34" \
             "build-tools;34.0.0" || true
 
+      - name: Print environment info
+        run: |
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          echo "JAVA_HOME=$JAVA_HOME"
+          java -version
+          ls $ANDROID_SDK_ROOT/platforms/ || true
+          ls $ANDROID_SDK_ROOT/build-tools/ || true
+
       - name: Grant gradlew permissions
         run: chmod +x ./gradlew
 
       - name: Build debug APK
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
-        env:
-          ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
+        id: build
+        run: ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
+        continue-on-error: true
+
+      - name: Upload build log
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: build-log
+          path: build.log
+
+      - name: Fail if build failed
+        if: steps.build.outcome == 'failure'
+        run: |
+          echo "=== LAST 100 LINES OF BUILD LOG ==="
+          tail -100 build.log
+          exit 1
 
       - name: Rename APK
         run: |
