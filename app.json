@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "RecipeBook",
+    "slug": "recipebook",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#07090F"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sh3m.recipebook"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#07090F"
+      },
+      "package": "com.sh3m.recipebook"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "RecipeBook needs access to your photos to add recipe images.",
+          "cameraPermission": "RecipeBook needs camera access to take recipe photos."
+        }
+      ]
+    ]
+  }
+}
