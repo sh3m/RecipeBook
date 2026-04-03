@@ -68,9 +68,8 @@ public class MainActivity extends Activity {
     }
 
     private void updateNightModeButton(ImageButton btn) {
-        boolean dark = ThemeManager.isDark(this);
-        btn.setImageResource(dark ? R.drawable.ic_sun : R.drawable.ic_moon);
-        btn.setColorFilter(dark ? Color.WHITE : Color.BLACK);
+        btn.setImageResource(ThemeManager.isDark(this) ? R.drawable.ic_sun : R.drawable.ic_moon);
+        btn.setColorFilter(Color.WHITE);
     }
 
     private void loadRecipes() {

@@ -27,10 +27,11 @@
 
         <ImageButton
             android:id="@+id/btnNightMode"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:background="@drawable/bg_mode_btn"
             android:contentDescription="@string/night_mode"
+            android:padding="8dp"
             android:src="@drawable/ic_sun" />
     </LinearLayout>
 
