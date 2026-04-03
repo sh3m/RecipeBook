@@ -3,18 +3,21 @@ package com.sh3m.recipebook;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -48,7 +51,7 @@ public class AddRecipeActivity extends Activity {
     private String imagePath;
     private Recipe existingRecipe;
     private RecipeDatabaseHelper dbHelper;
-    private File cameraImageFile;
+    private Uri cameraImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +113,7 @@ public class AddRecipeActivity extends Activity {
                 .setTitle(R.string.photo_source_title)
                 .setItems(new CharSequence[]{getString(R.string.camera), getString(R.string.gallery)},
                         new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            @Override public void onClick(DialogInterface dialog, int which) {
                                 if (which == 0) launchCamera();
                                 else launchGallery();
                             }
@@ -127,7 +129,9 @@ public class AddRecipeActivity extends Activity {
             requestPermissions(new String[]{permission}, REQUEST_PERM_GALLERY);
             return;
         }
-        startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), REQUEST_GALLERY);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_GALLERY);
     }
 
     private void launchCamera() {
@@ -136,13 +140,16 @@ public class AddRecipeActivity extends Activity {
             return;
         }
         try {
-            if (Build.VERSION.SDK_INT >= 24) {
-                StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().build());
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.DISPLAY_NAME, "recipe_" + System.currentTimeMillis() + ".jpg");
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+            cameraImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            if (cameraImageUri == null) {
+                Toast.makeText(this, "Camera unavailable", Toast.LENGTH_SHORT).show();
+                return;
             }
-            File dir = getExternalCacheDir() != null ? getExternalCacheDir() : getCacheDir();
-            cameraImageFile = new File(dir, "camera_" + System.currentTimeMillis() + ".jpg");
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraImageFile));
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri);
             startActivityForResult(intent, REQUEST_CAMERA);
         } catch (Exception e) {
             Toast.makeText(this, "Camera unavailable", Toast.LENGTH_SHORT).show();
@@ -156,9 +163,8 @@ public class AddRecipeActivity extends Activity {
         if (requestCode == REQUEST_GALLERY && data != null) {
             Uri uri = data.getData();
             if (uri != null) saveImageFromUri(uri);
-        } else if (requestCode == REQUEST_CAMERA && cameraImageFile != null) {
-            imagePath = cameraImageFile.getAbsolutePath();
-            showImagePreview();
+        } else if (requestCode == REQUEST_CAMERA && cameraImageUri != null) {
+            saveImageFromUri(cameraImageUri);
         }
     }
 
@@ -174,6 +180,7 @@ public class AddRecipeActivity extends Activity {
         try {
             File dest = new File(getCacheDir(), "recipe_" + System.currentTimeMillis() + ".jpg");
             InputStream in = getContentResolver().openInputStream(uri);
+            if (in == null) throw new IOException("Cannot open URI");
             FileOutputStream out = new FileOutputStream(dest);
             byte[] buf = new byte[8192];
             int len;
@@ -182,7 +189,7 @@ public class AddRecipeActivity extends Activity {
             out.close();
             imagePath = dest.getAbsolutePath();
             showImagePreview();
-        } catch (IOException e) {
+        } catch (Exception e) {
             Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
         }
     }
@@ -192,9 +199,25 @@ public class AddRecipeActivity extends Activity {
         imagePlaceholder.setVisibility(View.GONE);
         btnChangePhoto.setVisibility(View.VISIBLE);
         if (imagePath != null) {
-            android.graphics.Bitmap bmp = BitmapFactory.decodeFile(imagePath);
+            Bitmap bmp = decodeSampledBitmap(imagePath, 800, 600);
             if (bmp != null) imgPreview.setImageBitmap(bmp);
         }
+    }
+
+    static Bitmap decodeSampledBitmap(String path, int reqWidth, int reqHeight) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, opts);
+        if (opts.outWidth <= 0) return null;
+        opts.inSampleSize = 1;
+        int w = opts.outWidth, h = opts.outHeight;
+        while (w / 2 >= reqWidth && h / 2 >= reqHeight) {
+            opts.inSampleSize *= 2;
+            w /= 2;
+            h /= 2;
+        }
+        opts.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(path, opts);
     }
 
     private void addIngredientRow(String ingredient, String amount) {
@@ -225,8 +248,8 @@ public class AddRecipeActivity extends Activity {
 
     private void addStepRow(String text) {
         final View row = LayoutInflater.from(this).inflate(R.layout.item_step, stepsList, false);
-        TextView tvNum = (TextView) row.findViewById(R.id.tvStepNumber);
-        EditText etStep = (EditText) row.findViewById(R.id.etStep);
+        final TextView tvNum = (TextView) row.findViewById(R.id.tvStepNumber);
+        final EditText etStep = (EditText) row.findViewById(R.id.etStep);
         ImageButton btnRemove = (ImageButton) row.findViewById(R.id.btnRemove);
         int num = stepsList.getChildCount() + 1;
         tvNum.setText(String.valueOf(num));
@@ -239,6 +262,11 @@ public class AddRecipeActivity extends Activity {
             }
         });
         stepsList.addView(row);
+        if (text.isEmpty()) {
+            etStep.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) imm.showSoftInput(etStep, InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 
     private void renumberSteps() {

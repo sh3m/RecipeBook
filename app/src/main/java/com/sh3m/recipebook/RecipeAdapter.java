@@ -2,7 +2,6 @@ package com.sh3m.recipebook;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +65,7 @@ public class RecipeAdapter extends BaseAdapter {
         if (recipe.imagePath != null && !recipe.imagePath.isEmpty()) {
             File f = new File(recipe.imagePath);
             if (f.exists()) {
-                Bitmap bmp = BitmapFactory.decodeFile(f.getAbsolutePath());
+                Bitmap bmp = AddRecipeActivity.decodeSampledBitmap(f.getAbsolutePath(), 200, 200);
                 if (bmp != null) {
                     holder.imgThumbnail.setImageBitmap(bmp);
                 } else {
