@@ -8,6 +8,12 @@
         <item name="android:navigationBarColor">@color/dark_bg</item>
         <item name="android:windowBackground">@color/dark_bg</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="colorBg">@color/dark_bg</item>
+        <item name="colorSurface">@color/dark_surface</item>
+        <item name="colorSurface2">@color/dark_surface2</item>
+        <item name="colorText">@color/dark_text</item>
+        <item name="colorHint">@color/dark_hint</item>
+        <item name="colorBorder">@color/dark_border</item>
     </style>
 
     <style name="Theme.RecipeBook.Light" parent="android:Theme.Material.Light.NoActionBar">
@@ -18,5 +24,11 @@
         <item name="android:navigationBarColor">@color/light_bg</item>
         <item name="android:windowBackground">@color/light_bg</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="colorBg">@color/light_bg</item>
+        <item name="colorSurface">@color/light_surface</item>
+        <item name="colorSurface2">@color/light_surface2</item>
+        <item name="colorText">@color/light_text</item>
+        <item name="colorHint">@color/light_hint</item>
+        <item name="colorBorder">@color/light_border</item>
     </style>
 </resources>

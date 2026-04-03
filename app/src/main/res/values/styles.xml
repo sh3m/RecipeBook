@@ -3,7 +3,7 @@
     <style name="SectionWrapper">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/dark_surface</item>
+        <item name="android:background">?attr/colorSurface</item>
         <item name="android:elevation">3dp</item>
         <item name="android:orientation">vertical</item>
     </style>
@@ -11,7 +11,7 @@
     <style name="SectionHeader">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40dp</item>
-        <item name="android:background">@color/dark_surface</item>
+        <item name="android:background">?attr/colorSurface</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">16dp</item>
@@ -30,7 +30,7 @@
     <style name="FieldLabel">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/dark_hint</item>
+        <item name="android:textColor">?attr/colorHint</item>
         <item name="android:textSize">11sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">0.1</item>
@@ -40,13 +40,13 @@
     <style name="FieldInput">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/dark_surface2</item>
+        <item name="android:background">?attr/colorSurface2</item>
         <item name="android:paddingStart">12dp</item>
         <item name="android:paddingEnd">12dp</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
-        <item name="android:textColor">@color/dark_text</item>
-        <item name="android:textColorHint">@color/dark_hint</item>
+        <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textColorHint">?attr/colorHint</item>
         <item name="android:textSize">15sp</item>
     </style>
 </resources>

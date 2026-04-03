@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorBg" format="color" />
+    <attr name="colorSurface" format="color" />
+    <attr name="colorSurface2" format="color" />
+    <attr name="colorText" format="color" />
+    <attr name="colorHint" format="color" />
+    <attr name="colorBorder" format="color" />
+</resources>

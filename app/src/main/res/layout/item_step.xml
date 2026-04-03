@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    android:background="@color/dark_surface2"
+    android:background="?attr/colorSurface2"
     android:minHeight="44dp"
     android:orientation="horizontal">
 
@@ -29,8 +29,8 @@
         android:minHeight="44dp"
         android:paddingStart="12dp" android:paddingEnd="12dp"
         android:paddingTop="10dp" android:paddingBottom="10dp"
-        android:textColor="@color/dark_text"
-        android:textColorHint="@color/dark_hint"
+        android:textColor="?attr/colorText"
+        android:textColorHint="?attr/colorHint"
         android:textSize="14sp" />
 
     <ImageButton
@@ -41,6 +41,6 @@
         android:contentDescription="Remove"
         android:minHeight="44dp"
         android:src="@drawable/ic_delete"
-        android:tint="@color/dark_hint"
+        android:tint="?attr/colorHint"
         android:alpha="0.6" />
 </LinearLayout>

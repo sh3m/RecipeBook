@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_bg"
+    android:background="?attr/colorBg"
     android:fillViewport="true">
 
     <LinearLayout
@@ -45,7 +45,7 @@
                     android:id="@+id/heroPlaceholder"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:background="@color/dark_surface2"
+                    android:background="?attr/colorSurface2"
                     android:gravity="center"
                     android:visibility="visible">
                     <TextView
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:lineSpacingMultiplier="1.4"
-                    android:textColor="@color/dark_text"
+                    android:textColor="?attr/colorText"
                     android:textSize="15sp"
                     android:visibility="gone" />
             </LinearLayout>
