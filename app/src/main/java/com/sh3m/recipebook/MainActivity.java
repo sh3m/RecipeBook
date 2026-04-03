@@ -1,19 +1,17 @@
 package com.sh3m.recipebook;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private RecipeAdapter adapter;
     private RecipeDatabaseHelper dbHelper;
@@ -27,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
 
         dbHelper = new RecipeDatabaseHelper(this);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        tvEmpty = findViewById(R.id.tvEmpty);
-        ImageButton btnAdd = findViewById(R.id.btnAdd);
-        ImageButton btnNightMode = findViewById(R.id.btnNightMode);
+        ListView listView = (ListView) findViewById(R.id.recyclerView);
+        tvEmpty = (TextView) findViewById(R.id.tvEmpty);
+        ImageButton btnAdd = (ImageButton) findViewById(R.id.btnAdd);
+        ImageButton btnNightMode = (ImageButton) findViewById(R.id.btnNightMode);
 
         adapter = new RecipeAdapter(this, new ArrayList<>(), recipe -> {
             Intent intent = new Intent(this, RecipeDetailActivity.class);
@@ -38,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        listView.setAdapter(adapter);
 
         btnAdd.setOnClickListener(v ->
                 startActivity(new Intent(this, AddRecipeActivity.class)));

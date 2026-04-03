@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.RecipeBook" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/accent</item>
-        <item name="colorPrimaryVariant">@color/accent_pressed</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/accent</item>
-        <item name="colorSecondaryVariant">@color/accent_pressed</item>
-        <item name="colorOnSecondary">@color/white</item>
+    <style name="Theme.RecipeBook" parent="android:Theme.Material.NoActionBar">
+        <item name="android:colorPrimary">@color/accent</item>
+        <item name="android:colorPrimaryDark">@color/accent_pressed</item>
+        <item name="android:colorAccent">@color/accent</item>
         <item name="android:statusBarColor">@color/dark_surface</item>
         <item name="android:navigationBarColor">@color/dark_bg</item>
+        <item name="android:windowBackground">@color/dark_bg</item>
     </style>
 
-    <style name="Theme.RecipeBook.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/accent</item>
-        <item name="colorPrimaryVariant">@color/accent_pressed</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/accent</item>
-        <item name="colorSecondaryVariant">@color/accent_pressed</item>
-        <item name="colorOnSecondary">@color/white</item>
+    <style name="Theme.RecipeBook.Light" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/accent</item>
+        <item name="android:colorPrimaryDark">@color/accent_pressed</item>
+        <item name="android:colorAccent">@color/accent</item>
         <item name="android:statusBarColor">@color/light_surface</item>
         <item name="android:navigationBarColor">@color/light_bg</item>
+        <item name="android:windowBackground">@color/light_bg</item>
     </style>
 </resources>

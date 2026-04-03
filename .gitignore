@@ -13,3 +13,5 @@
 
 # App build outputs (tracked in CI releases, not git)
 app/build/
+build_out/
+*.idsig

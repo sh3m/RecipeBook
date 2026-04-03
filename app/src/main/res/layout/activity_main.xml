@@ -32,7 +32,7 @@
             android:id="@+id/btnNightMode"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/night_mode"
             android:src="@drawable/ic_sun" />
     </LinearLayout>
@@ -58,7 +58,7 @@
         android:visibility="gone" />
 
     <!-- Recipe list -->
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

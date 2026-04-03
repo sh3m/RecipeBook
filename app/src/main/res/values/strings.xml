@@ -26,6 +26,6 @@
     <string name="gallery">Photo Library</string>
     <string name="delete_title">Delete Recipe</string>
     <string name="delete_message">Delete \"%s\"? This cannot be undone.</string>
-    <string name="ingredients_count">%d ingredients · %d steps</string>
+    <string name="ingredients_count" formatted="false">%d ingredients · %d steps</string>
     <string name="night_mode">Toggle dark mode</string>
 </resources>

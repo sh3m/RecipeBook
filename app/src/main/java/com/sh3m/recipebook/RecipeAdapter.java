@@ -1,21 +1,19 @@
 package com.sh3m.recipebook;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.List;
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
+public class RecipeAdapter extends BaseAdapter {
 
     public interface OnItemClickListener {
         void onItemClick(Recipe recipe);
@@ -36,15 +34,21 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.item_recipe, parent, false);
-        return new ViewHolder(v);
-    }
+    @Override public int getCount() { return recipes.size(); }
+    @Override public Recipe getItem(int pos) { return recipes.get(pos); }
+    @Override public long getItemId(int pos) { return recipes.get(pos).id; }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_recipe, parent, false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
         Recipe recipe = recipes.get(position);
         holder.tvName.setText(recipe.name);
 
@@ -61,33 +65,35 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         );
 
         if (recipe.imagePath != null && !recipe.imagePath.isEmpty()) {
-            Glide.with(context)
-                    .load(new File(recipe.imagePath))
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_recipe_placeholder)
-                    .into(holder.imgThumbnail);
+            File f = new File(recipe.imagePath);
+            if (f.exists()) {
+                Bitmap bmp = BitmapFactory.decodeFile(f.getAbsolutePath());
+                if (bmp != null) {
+                    holder.imgThumbnail.setImageBitmap(bmp);
+                } else {
+                    holder.imgThumbnail.setImageResource(R.drawable.ic_recipe_placeholder);
+                }
+            } else {
+                holder.imgThumbnail.setImageResource(R.drawable.ic_recipe_placeholder);
+            }
         } else {
             holder.imgThumbnail.setImageResource(R.drawable.ic_recipe_placeholder);
         }
 
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(recipe));
+        final Recipe r = recipe;
+        convertView.setOnClickListener(v -> listener.onItemClick(r));
+        return convertView;
     }
 
-    @Override
-    public int getItemCount() {
-        return recipes.size();
-    }
-
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder {
         ImageView imgThumbnail;
         TextView tvName, tvDescription, tvMeta;
 
         ViewHolder(View v) {
-            super(v);
-            imgThumbnail = v.findViewById(R.id.imgThumbnail);
-            tvName = v.findViewById(R.id.tvName);
-            tvDescription = v.findViewById(R.id.tvDescription);
-            tvMeta = v.findViewById(R.id.tvMeta);
+            imgThumbnail = (ImageView) v.findViewById(R.id.imgThumbnail);
+            tvName = (TextView) v.findViewById(R.id.tvName);
+            tvDescription = (TextView) v.findViewById(R.id.tvDescription);
+            tvMeta = (TextView) v.findViewById(R.id.tvMeta);
         }
     }
 }
