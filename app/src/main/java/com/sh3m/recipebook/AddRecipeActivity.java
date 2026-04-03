@@ -3,6 +3,7 @@ package com.sh3m.recipebook;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
@@ -66,14 +67,24 @@ public class AddRecipeActivity extends Activity {
         stepsList = (LinearLayout) findViewById(R.id.stepsList);
 
         FrameLayout imageContainer = (FrameLayout) findViewById(R.id.imageContainer);
-        imageContainer.setOnClickListener(v -> showImageOptions());
-        btnChangePhoto.setOnClickListener(v -> showImageOptions());
+        imageContainer.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { showImageOptions(); }
+        });
+        btnChangePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { showImageOptions(); }
+        });
 
-        findViewById(R.id.btnAddIngredient).setOnClickListener(v -> addIngredientRow("", ""));
-        findViewById(R.id.btnAddStep).setOnClickListener(v -> addStepRow(""));
+        findViewById(R.id.btnAddIngredient).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { addIngredientRow("", ""); }
+        });
+        findViewById(R.id.btnAddStep).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { addStepRow(""); }
+        });
 
         Button btnSave = (Button) findViewById(R.id.btnSave);
-        btnSave.setOnClickListener(v -> saveRecipe());
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { saveRecipe(); }
+        });
 
         long recipeId = getIntent().getLongExtra(EXTRA_RECIPE_ID, -1);
         if (recipeId != -1) {
@@ -98,7 +109,13 @@ public class AddRecipeActivity extends Activity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.photo_source_title)
                 .setItems(new CharSequence[]{getString(R.string.camera), getString(R.string.gallery)},
-                        (dialog, which) -> { if (which == 0) launchCamera(); else launchGallery(); })
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (which == 0) launchCamera();
+                                else launchGallery();
+                            }
+                        })
                 .show();
     }
 
@@ -156,11 +173,13 @@ public class AddRecipeActivity extends Activity {
     private void saveImageFromUri(Uri uri) {
         try {
             File dest = new File(getCacheDir(), "recipe_" + System.currentTimeMillis() + ".jpg");
-            try (InputStream in = getContentResolver().openInputStream(uri);
-                 FileOutputStream out = new FileOutputStream(dest)) {
-                byte[] buf = new byte[8192]; int len;
-                while ((len = in.read(buf)) != -1) out.write(buf, 0, len);
-            }
+            InputStream in = getContentResolver().openInputStream(uri);
+            FileOutputStream out = new FileOutputStream(dest);
+            byte[] buf = new byte[8192];
+            int len;
+            while ((len = in.read(buf)) != -1) out.write(buf, 0, len);
+            in.close();
+            out.close();
             imagePath = dest.getAbsolutePath();
             showImagePreview();
         } catch (IOException e) {
@@ -179,7 +198,7 @@ public class AddRecipeActivity extends Activity {
     }
 
     private void addIngredientRow(String ingredient, String amount) {
-        View row = LayoutInflater.from(this).inflate(R.layout.item_ingredient, ingredientsList, false);
+        final View row = LayoutInflater.from(this).inflate(R.layout.item_ingredient, ingredientsList, false);
         EditText etIng = (EditText) row.findViewById(R.id.etIngredient);
         EditText etAmt = (EditText) row.findViewById(R.id.etAmount);
         ImageButton btnRemove = (ImageButton) row.findViewById(R.id.btnRemove);
@@ -187,7 +206,12 @@ public class AddRecipeActivity extends Activity {
         etIng.setHint("Ingredient " + idx);
         etIng.setText(ingredient);
         etAmt.setText(amount);
-        btnRemove.setOnClickListener(v -> { ingredientsList.removeView(row); renumberIngredients(); });
+        btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                ingredientsList.removeView(row);
+                renumberIngredients();
+            }
+        });
         ingredientsList.addView(row);
     }
 
@@ -200,7 +224,7 @@ public class AddRecipeActivity extends Activity {
     }
 
     private void addStepRow(String text) {
-        View row = LayoutInflater.from(this).inflate(R.layout.item_step, stepsList, false);
+        final View row = LayoutInflater.from(this).inflate(R.layout.item_step, stepsList, false);
         TextView tvNum = (TextView) row.findViewById(R.id.tvStepNumber);
         EditText etStep = (EditText) row.findViewById(R.id.etStep);
         ImageButton btnRemove = (ImageButton) row.findViewById(R.id.btnRemove);
@@ -208,7 +232,12 @@ public class AddRecipeActivity extends Activity {
         tvNum.setText(String.valueOf(num));
         etStep.setHint("Step " + num);
         etStep.setText(text);
-        btnRemove.setOnClickListener(v -> { stepsList.removeView(row); renumberSteps(); });
+        btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                stepsList.removeView(row);
+                renumberSteps();
+            }
+        });
         stepsList.addView(row);
     }
 
@@ -221,14 +250,18 @@ public class AddRecipeActivity extends Activity {
 
     private void saveRecipe() {
         String name = etName.getText().toString().trim();
-        if (TextUtils.isEmpty(name)) { etName.setError("Recipe name is required"); etName.requestFocus(); return; }
+        if (TextUtils.isEmpty(name)) {
+            etName.setError("Recipe name is required");
+            etName.requestFocus();
+            return;
+        }
 
         Recipe recipe = existingRecipe != null ? existingRecipe : new Recipe();
         recipe.name = name;
         recipe.description = etDescription.getText().toString().trim();
         recipe.imagePath = imagePath;
 
-        recipe.ingredients = new ArrayList<>();
+        recipe.ingredients = new ArrayList<Ingredient>();
         for (int i = 0; i < ingredientsList.getChildCount(); i++) {
             View row = ingredientsList.getChildAt(i);
             String ing = ((EditText) row.findViewById(R.id.etIngredient)).getText().toString().trim();
@@ -236,7 +269,7 @@ public class AddRecipeActivity extends Activity {
             if (!ing.isEmpty() || !amt.isEmpty()) recipe.ingredients.add(new Ingredient(recipe.id, ing, amt, i));
         }
 
-        recipe.steps = new ArrayList<>();
+        recipe.steps = new ArrayList<Step>();
         int stepNum = 1;
         for (int i = 0; i < stepsList.getChildCount(); i++) {
             View row = stepsList.getChildAt(i);
@@ -244,7 +277,8 @@ public class AddRecipeActivity extends Activity {
             if (!t.isEmpty()) recipe.steps.add(new Step(recipe.id, t, stepNum++));
         }
 
-        if (existingRecipe != null) dbHelper.updateRecipe(recipe); else dbHelper.insertRecipe(recipe);
+        if (existingRecipe != null) dbHelper.updateRecipe(recipe);
+        else dbHelper.insertRecipe(recipe);
         finish();
     }
 }

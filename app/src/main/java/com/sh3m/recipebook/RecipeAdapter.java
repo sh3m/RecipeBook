@@ -39,7 +39,7 @@ public class RecipeAdapter extends BaseAdapter {
     @Override public long getItemId(int pos) { return recipes.get(pos).id; }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_recipe, parent, false);
@@ -49,7 +49,7 @@ public class RecipeAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Recipe recipe = recipes.get(position);
+        final Recipe recipe = recipes.get(position);
         holder.tvName.setText(recipe.name);
 
         if (recipe.description != null && !recipe.description.isEmpty()) {
@@ -61,8 +61,7 @@ public class RecipeAdapter extends BaseAdapter {
 
         holder.tvMeta.setText(
                 context.getString(R.string.ingredients_count,
-                        recipe.ingredients.size(), recipe.steps.size())
-        );
+                        recipe.ingredients.size(), recipe.steps.size()));
 
         if (recipe.imagePath != null && !recipe.imagePath.isEmpty()) {
             File f = new File(recipe.imagePath);
@@ -80,8 +79,12 @@ public class RecipeAdapter extends BaseAdapter {
             holder.imgThumbnail.setImageResource(R.drawable.ic_recipe_placeholder);
         }
 
-        final Recipe r = recipe;
-        convertView.setOnClickListener(v -> listener.onItemClick(r));
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(recipe);
+            }
+        });
         return convertView;
     }
 

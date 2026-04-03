@@ -47,7 +47,6 @@ javac \
 
 echo "==> 4. Convert .class → classes.dex"
 $DX --dex \
-    --min-sdk-version=26 \
     --output="$BUILD/classes.dex" \
     "$BUILD/classes"
 

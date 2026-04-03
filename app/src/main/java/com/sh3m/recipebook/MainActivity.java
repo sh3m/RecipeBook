@@ -30,23 +30,34 @@ public class MainActivity extends Activity {
         ImageButton btnAdd = (ImageButton) findViewById(R.id.btnAdd);
         ImageButton btnNightMode = (ImageButton) findViewById(R.id.btnNightMode);
 
-        adapter = new RecipeAdapter(this, new ArrayList<>(), recipe -> {
-            Intent intent = new Intent(this, RecipeDetailActivity.class);
-            intent.putExtra(RecipeDetailActivity.EXTRA_RECIPE_ID, recipe.id);
-            startActivity(intent);
+        adapter = new RecipeAdapter(this, new ArrayList<Recipe>(), new RecipeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Recipe recipe) {
+                Intent intent = new Intent(MainActivity.this, RecipeDetailActivity.class);
+                intent.putExtra(RecipeDetailActivity.EXTRA_RECIPE_ID, recipe.id);
+                startActivity(intent);
+            }
         });
 
         listView.setAdapter(adapter);
 
-        btnAdd.setOnClickListener(v ->
-                startActivity(new Intent(this, AddRecipeActivity.class)));
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AddRecipeActivity.class));
+            }
+        });
 
-        btnNightMode.setImageResource(ThemeManager.isDark(this)
-                ? R.drawable.ic_sun : R.drawable.ic_moon);
+        btnNightMode.setImageResource(ThemeManager.isDark(this) ? R.drawable.ic_sun : R.drawable.ic_moon);
 
-        btnNightMode.setOnClickListener(v -> {
-            ThemeManager.toggle(this);
-            recreate();
+        final ImageButton finalBtnNightMode = btnNightMode;
+        btnNightMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ThemeManager.toggle(MainActivity.this);
+                finalBtnNightMode.setImageResource(ThemeManager.isDark(MainActivity.this) ? R.drawable.ic_sun : R.drawable.ic_moon);
+                recreate();
+            }
         });
     }
 

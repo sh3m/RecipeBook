@@ -2,6 +2,7 @@ package com.sh3m.recipebook;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -35,12 +36,17 @@ public class RecipeDetailActivity extends Activity {
         Button btnEdit = (Button) findViewById(R.id.btnEdit);
         Button btnDelete = (Button) findViewById(R.id.btnDelete);
 
-        btnEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(this, AddRecipeActivity.class);
-            intent.putExtra(AddRecipeActivity.EXTRA_RECIPE_ID, recipeId);
-            startActivity(intent);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecipeDetailActivity.this, AddRecipeActivity.class);
+                intent.putExtra(AddRecipeActivity.EXTRA_RECIPE_ID, recipeId);
+                startActivity(intent);
+            }
         });
-        btnDelete.setOnClickListener(v -> confirmDelete());
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { confirmDelete(); }
+        });
     }
 
     @Override
@@ -127,7 +133,8 @@ public class RecipeDetailActivity extends Activity {
             for (Step step : recipe.steps) {
                 LinearLayout row = new LinearLayout(this);
                 row.setOrientation(LinearLayout.HORIZONTAL);
-                LinearLayout.LayoutParams rp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams rp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 rp.setMargins(0, 0, 0, dpToPx(14));
                 row.setLayoutParams(rp);
 
@@ -160,12 +167,17 @@ public class RecipeDetailActivity extends Activity {
     }
 
     private void confirmDelete() {
-        Recipe recipe = dbHelper.getRecipe(recipeId);
+        final Recipe recipe = dbHelper.getRecipe(recipeId);
         if (recipe == null) return;
         new AlertDialog.Builder(this)
                 .setTitle(R.string.delete_title)
                 .setMessage(getString(R.string.delete_message, recipe.name))
-                .setPositiveButton(R.string.delete, (d, w) -> { dbHelper.deleteRecipe(recipeId); finish(); })
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override public void onClick(DialogInterface d, int w) {
+                        dbHelper.deleteRecipe(recipeId);
+                        finish();
+                    }
+                })
                 .setNegativeButton(R.string.cancel, null)
                 .show();
     }
