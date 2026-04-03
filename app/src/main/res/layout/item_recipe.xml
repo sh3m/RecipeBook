@@ -1,60 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Outer transparent wrapper — ListView respects padding, not margin on root views -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
-    android:layout_marginTop="40dp"
-    android:layout_marginBottom="40dp"
-    android:background="?attr/colorSurface"
-    android:elevation="4dp"
-    android:orientation="horizontal">
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
 
-    <!-- Thumbnail -->
-    <ImageView
-        android:id="@+id/imgThumbnail"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:contentDescription="Recipe image"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_recipe_placeholder" />
-
-    <!-- Info -->
+    <!-- Actual card -->
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="12dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        android:elevation="4dp"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?attr/colorText"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+        <!-- Thumbnail -->
+        <ImageView
+            android:id="@+id/imgThumbnail"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:contentDescription="Recipe image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_recipe_placeholder" />
 
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?attr/colorHint"
-            android:textSize="13sp" />
+        <!-- Info -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="12dp">
 
-        <TextView
-            android:id="@+id/tvMeta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textColor="@color/accent"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.03" />
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="?attr/colorText"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="?attr/colorHint"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tvMeta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/accent"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.03" />
+        </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

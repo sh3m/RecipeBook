@@ -61,7 +61,9 @@
         android:layout_height="match_parent"
         android:layout_below="@id/divider"
         android:clipToPadding="false"
-        android:paddingTop="10dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:paddingTop="0dp"
         android:paddingBottom="92dp" />
 
     <!-- FAB -->
