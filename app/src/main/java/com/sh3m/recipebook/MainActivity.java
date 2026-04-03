@@ -2,6 +2,7 @@ package com.sh3m.recipebook;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -48,14 +49,13 @@ public class MainActivity extends Activity {
             }
         });
 
-        btnNightMode.setImageResource(ThemeManager.isDark(this) ? R.drawable.ic_sun : R.drawable.ic_moon);
+        updateNightModeButton(btnNightMode);
 
         final ImageButton finalBtnNightMode = btnNightMode;
         btnNightMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ThemeManager.toggle(MainActivity.this);
-                finalBtnNightMode.setImageResource(ThemeManager.isDark(MainActivity.this) ? R.drawable.ic_sun : R.drawable.ic_moon);
                 recreate();
             }
         });
@@ -65,6 +65,12 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         loadRecipes();
+    }
+
+    private void updateNightModeButton(ImageButton btn) {
+        boolean dark = ThemeManager.isDark(this);
+        btn.setImageResource(dark ? R.drawable.ic_sun : R.drawable.ic_moon);
+        btn.setColorFilter(dark ? Color.WHITE : Color.BLACK);
     }
 
     private void loadRecipes() {
